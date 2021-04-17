@@ -13,7 +13,7 @@ target_link_libraries( main ${OpenCV_LIBS} )
 # code generation
 # generate file
 execute_process(
-    COMMAND python ${CMAKE_SOURCE_DIR}/generate_code.py
+    COMMAND python ${CMAKE_SOURCE_DIR}/code_gen.py
 )
 
 add_executable( code_gen code_gen.cpp )

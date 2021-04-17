@@ -1,4 +1,6 @@
 import os
+import matplotlib.pyplot as plt
+import numpy as np
 
 template = '''
 #include <opencv2/core/core.hpp>
@@ -15,7 +17,7 @@ typedef Vec<unsigned char, 3> VT;
 const vector<int> map = {{ {} }};
 
 
-void map_colors(Mat& image, Mat& map) {{
+void map_colors(Mat& image) {{
     for (auto pix = image.begin<VT>(); pix < image.end<VT>(); ++pix) {{
         for (int c = 0; c < 3; ++c) {{
             pix[0][c] = map[256 * c + pix[0][c]];
@@ -47,9 +49,14 @@ int main( int argc, char** argv ) {{
 
 '''
 
+
+m = (255 * plt.imread(os.path.join(os.path.split(os.path.abspath(__file__))[0], 'map.png'))).astype(int)
+m = np.concatenate([m[c,:,c] for c in range(3)])
+s = ', '.join([str(x) for x in m])
+
 with open(
     os.path.join(os.path.split(os.path.abspath(__file__))[0], 'code_gen.cpp'),
     'w'
 ) as f:
-    f.write(template.format('xxx'))
+    f.write(template.format(s))
 
