@@ -16,6 +16,7 @@ add_custom_command(
     OUTPUT ${CMAKE_SOURCE_DIR}/code_gen.cpp
     COMMAND python ${CMAKE_SOURCE_DIR}/code_gen.py
 )
- 
+add_custom_target( wait_generation DEPENDS ${CMAKE_SOURCE_DIR}/code_gen.cpp )
 add_executable( code_gen ${CMAKE_SOURCE_DIR}/code_gen.cpp )
+add_dependencies( code_gen wait_generation )
 target_link_libraries( code_gen ${OpenCV_LIBS} )
